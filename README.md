@@ -1,4 +1,4 @@
-# buefy-json-schema-form
+# vue-json-schema-form-generator
 
 > A Vue.js project
 
