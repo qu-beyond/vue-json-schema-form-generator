@@ -1,0 +1,13 @@
+{
+  "title": "Hot Rod Customs",
+  "type": "object",
+  "properties": {
+    "custom": {
+      "type": "string",
+      "title": "Custom Widget",
+      "ui": {
+        "widget": "custom"
+      }
+    }
+  }
+}
