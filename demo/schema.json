@@ -1,0 +1,130 @@
+{
+  "title": "A registration form",
+  "description": "A simple form example.",
+  "type": "object",
+  "required": [
+    "firstName",
+    "lastName",
+    "age",
+    "boolean"
+  ],
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "title": "First name",
+      "default": "Chuck"
+    },
+    "lastName": {
+      "type": "string",
+      "title": "Last name",
+      "minLength": 3,
+      "default": "Stalone"
+    },
+    "age": {
+      "type": "integer",
+      "title": "Age"
+    },
+    "boolean": {
+      "type": "boolean",
+      "title": "switch",
+      "default": true
+    },
+    "booleanTrue": {
+      "type": "boolean",
+      "title": "switch",
+      "default": true
+    },
+    "bio": {
+      "type": "string",
+      "title": "Bio",
+      "ui": {
+        "widget": "textarea"
+      }
+    },
+    "numberEnum": {
+      "type": "number",
+      "title": "Number enum",
+      "enum": [
+        1,
+        2,
+        3
+      ],
+      "ui": {
+        "widget": "radio"
+      }
+    },
+    "pattern": {
+      "type": "string",
+      "title": "Formatted",
+      "pattern": "^[A-Za-z0-9]{5}:[0-9]{3}$"
+    },
+    "multiple_choice": {
+      "type": "array",
+      "title": "Multiple Choice",
+      "items": {
+        "type": "integer",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "maxItems": 4,
+      "uniqueItems": true
+    },
+    "dropdown": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "enumNames": [
+        "Log Always",
+        "Critical",
+        "Error",
+        "Warning",
+        "Informational",
+        "Verbose"
+      ],
+      "default": 3
+    },
+    "multiple_input": {
+      "type": "array",
+      "title": "Array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Hello",
+          "Chiao",
+          "Hola"
+        ]
+      },
+      "maxitems": 4
+    },
+    "object": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "object",
+          "required": [
+            "label"
+          ],
+          "properties": {
+            "label": {
+              "type": "string",
+              "title": "Nested",
+              "minLength": 5
+            }
+          }
+        }
+      }
+    }
+  }
+}

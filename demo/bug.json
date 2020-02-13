@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "customfonts": {
+      "title": "Custom Fonts",
+      "description": "Upload your custom fonts and then use them by Name",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "file_ids": {
+            "title": "Font files",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "ui": {
+              "widget": "files",
+              "accept": ".eot,.woff,.ttf,.svg"
+            }
+          }
+        }
+      }
+    },
+    "headerfont": {
+      "title": "Site Header Font",
+      "description": "Used only for header navigation fonts (\"Login\", \"Checkout\") that appear on top of all pages.",
+      "type": "object",
+      "properties": {
+        "headerfont.name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "headerfont.color": {
+          "title": "Color",
+          "type": "string"
+        },
+        "headerfont.size": {
+          "title": "Size",
+          "type": "string"
+        },
+        "headerfont.mobile.size": {
+          "title": "Mobile Size",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

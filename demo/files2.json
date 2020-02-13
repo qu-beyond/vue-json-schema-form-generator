@@ -1,0 +1,37 @@
+{
+  "definitions": {
+    "filePair": {
+      "type": "object",
+      "required": [
+        "linkage",
+        "file_url"
+      ],
+      "properties": {
+        "linkage": {
+          "type": "string",
+          "title": "Linkage"
+        },
+        "file_url": {
+          "type": "string",
+          "title": "File URL",
+          "ui": {
+            "widget": "qufile"
+          }
+        }
+      }
+    }
+  },
+  "title": "A file array",
+  "description": "A list of files to link later on.",
+  "type": "object",
+  "properties": {
+    "files": {
+      "type": "array",
+      "title": "Files",
+      "items": {
+        "$ref": "#/definitions/filePair"
+      },
+      "minItems": 1
+    }
+  }
+}

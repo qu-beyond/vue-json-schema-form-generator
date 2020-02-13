@@ -1,0 +1,117 @@
+{
+    "type": "object",
+    "properties": {
+      "min": {
+        "title": "Minimum amount for an order",
+        "type": "object",
+        "required": [
+          "min_order_amount_allowed"
+        ],
+        "properties": {
+          "min_order_amount_allowed": {
+            "title": "Min Order Amount Allowed",
+            "type": "string",
+            "enum": [
+              "No Limit",
+              "Specific Amount"
+            ],
+            "default": "No Limit"
+          }
+        },
+        "dependencies": {
+          "min_order_amount_allowed": {
+            "oneOf": [
+              {
+                "properties": {
+                  "min_order_amount_allowed": {
+                    "enum": [
+                      "No Limit"
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "min_order_amount_allowed": {
+                    "enum": [
+                      "Specific Amount"
+                    ]
+                  },
+                  "minimum_amount": {
+                    "title": "Min Amount $",
+                    "description": "Min amount of $ allowed in an order",
+                    "type": "number"
+                  },
+                  "custom_message": {
+                    "title": "Custom Message",
+                    "description": "Message in case the Min amount is not reached",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "minimum_amount",
+                  "custom_message"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "max": {
+        "title": "Maximum amount for an order",
+        "type": "object",
+        "required": [
+          "max_order_amount_allowed"
+        ],
+        "properties": {
+          "max_order_amount_allowed": {
+            "title": "Max Order Amount Allowed",
+            "type": "string",
+            "enum": [
+              "No Limit",
+              "Specific Amount"
+            ],
+            "default": "No Limit"
+          }
+        },
+        "dependencies": {
+          "max_order_amount_allowed": {
+            "oneOf": [
+              {
+                "properties": {
+                  "max_order_amount_allowed": {
+                    "enum": [
+                      "No Limit"
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "max_order_amount_allowed": {
+                    "enum": [
+                      "Specific Amount"
+                    ]
+                  },
+                  "maximum_amount": {
+                    "title": "Max Amount $",
+                    "description": "Max amount of $ allowed in an order",
+                    "type": "number"
+                  },
+                  "custom_message_max": {
+                    "title": "Custom Message",
+                    "description": "Message in case Max amount is exceeded",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "maximum_amount",
+                  "custom_message_max"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
