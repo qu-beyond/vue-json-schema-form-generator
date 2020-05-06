@@ -26,8 +26,7 @@
     },
     "boolean": {
       "type": "boolean",
-      "title": "switch",
-      "default": true
+      "title": "switch"
     },
     "booleanTrue": {
       "type": "boolean",

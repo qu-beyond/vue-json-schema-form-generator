@@ -14,12 +14,18 @@
             :widgets="widgets"
           />
         </b-field>
-        <b-button @click="$refs.schemaForm.checkValidity(); liveValidate = true">Validate</b-button>
+        <b-button @click="validate()">
+          Validate
+        </b-button>
         is valid: {{ isValid }}
       </div>
       <div class="container column is-6">
         <b-field label="Schema">
-          <b-input v-model="schemaString" type="textarea" rows="24" />
+          <b-input
+            v-model="schemaString"
+            type="textarea"
+            rows="24"
+          />
         </b-field>
       </div>
     </section>
@@ -34,7 +40,7 @@
 </template>
 
 <script>
-import CustomWidget from './CustomWidget.vue'
+import CustomWidget from './demo/CustomWidget.vue'
 export default {
   name: 'App',
 
@@ -42,9 +48,14 @@ export default {
     return {
       liveValidate: false,
       isValid: false,
-      values: { lastName: 'Norris', boolean: false, booleanTrue: true, multiple_choice: [1,2,3,4,5] },
+      values: {
+        lastName: 'Norris',
+        boolean: false,
+        booleanTrue: true,
+        multiple_choice: [1, 2, 3, 4, 5]
+      },
 
-      schema: require('./schema.json'),
+      schema: require('../examples/schema.json'),
       widgets: { custom: CustomWidget }
     }
   },
@@ -67,7 +78,14 @@ export default {
   },
   methods: {
     transformErrors(errors) {
-      return errors.map(({ message, title, ...e }) => ({ ...e, message: `${title || 'Field'} ${message}` }))
+      return errors.map(({ message, title, ...e }) => ({
+        ...e,
+        message: `${title || 'Field'} ${message}`
+      }))
+    },
+    validate() {
+      this.$refs.schemaForm.checkValidity()
+      this.liveValidate = true
     }
   }
 }

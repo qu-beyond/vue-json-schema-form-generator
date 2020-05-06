@@ -30,7 +30,12 @@
 
 <script>
 import WrapperSelector from './WrapperSelector'
-import { retrieveSchema, getFieldComponent, ADDITIONAL_PROPERTY_FLAG } from '../../utils/helpers'
+import {
+  retrieveSchema,
+  getFieldComponent,
+  ADDITIONAL_PROPERTY_FLAG,
+  hasOwnProperty
+} from '../../utils/helpers'
 import { wrapperMap } from '../wrappers'
 
 export default {
@@ -61,7 +66,6 @@ export default {
       type: String,
       default: undefined
     }
-
   },
   computed: {
     model: {
@@ -94,7 +98,10 @@ export default {
       return wrapperMap
     },
     wrapperType() {
-      const additional = this.processedSchema.hasOwnProperty(ADDITIONAL_PROPERTY_FLAG)
+      const additional = hasOwnProperty(
+        this.processedSchema,
+        ADDITIONAL_PROPERTY_FLAG
+      )
       return additional ? 'additional' : this.processedSchema.type
     }
   }

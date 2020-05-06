@@ -1,9 +1,13 @@
-import fill from 'core-js/library/fn/array/fill'
+import fill from 'core-js/features/array/fill'
 import { validateFormData, isValid } from './validate'
 import { widgetMap } from '../components/widgets'
 import { fieldMap } from '../components/fields'
 
 export const ADDITIONAL_PROPERTY_FLAG = '__additional_property'
+
+export function hasOwnProperty(obj, key) {
+  return Object.prototype.hasOwnProperty.call(obj, key)
+}
 
 export function getFieldComponent(schema) {
   return fieldMap[getSchemaType(schema)]
@@ -20,7 +24,7 @@ export function getWidget(schema, widget, registeredWidgets = {}) {
   }
 
   const type = getSchemaType(schema)
-  if (!widgetMap.hasOwnProperty(type)) {
+  if (!hasOwnProperty(widgetMap, type)) {
     throw new Error(`No widget for type '${type}'`)
   }
 
@@ -33,11 +37,13 @@ export function getWidget(schema, widget, registeredWidgets = {}) {
 }
 
 export function hasWidget(schema, widget, registeredWidgets = {}) {
-  if (registeredWidgets.hasOwnProperty(widget)) {
+  if (hasOwnProperty(registeredWidgets, widget)) {
     return true
   }
   const type = getSchemaType(schema)
-  return widgetMap.hasOwnProperty(type) && widgetMap[type].hasOwnProperty(widget)
+  return (
+    hasOwnProperty(widgetMap, type) && hasOwnProperty(widgetMap[type], widget)
+  )
 }
 
 export function hasCustomWidget(schema) {
@@ -63,7 +69,12 @@ export function getSchemaType(schema) {
   return type
 }
 
-function computeDefaults(schema, parentDefaults, definitions, rawFormData = {}) {
+function computeDefaults(
+  schema,
+  parentDefaults,
+  definitions,
+  rawFormData = {}
+) {
   const formData = isObject(rawFormData) ? rawFormData : {}
   // Compute the defaults recursively: give highest priority to deepest nodes.
   let defaults = parentDefaults
@@ -148,7 +159,12 @@ export function getDefaultFormState(_schema, formData, definitions = {}) {
     throw new Error('Invalid schema: ' + _schema)
   }
   const schema = retrieveSchema(_schema, definitions, formData)
-  const defaults = computeDefaults(schema, _schema.default, definitions, formData)
+  const defaults = computeDefaults(
+    schema,
+    _schema.default,
+    definitions,
+    formData
+  )
   if (typeof formData === 'undefined') {
     // No form data? Use schema defaults.
     return defaults
@@ -181,7 +197,7 @@ export function mergeObjects(obj1, obj2, concatArrays = false) {
   return Object.keys(obj2).reduce((acc, key) => {
     const left = obj1 ? obj1[key] : {},
       right = obj2[key]
-    if (obj1 && obj1.hasOwnProperty(key) && isObject(right)) {
+    if (obj1 && hasOwnProperty(obj1, key) && isObject(right)) {
       acc[key] = mergeObjects(left, right, concatArrays)
     } else if (concatArrays && Array.isArray(left) && Array.isArray(right)) {
       acc[key] = left.concat(right)
@@ -208,14 +224,14 @@ export function asNumber(value) {
 export function isConstant(schema) {
   return (
     (Array.isArray(schema.enum) && schema.enum.length === 1) ||
-    schema.hasOwnProperty('const')
+    hasOwnProperty(schema, 'const')
   )
 }
 
 export function toConstant(schema) {
   if (Array.isArray(schema.enum) && schema.enum.length === 1) {
     return schema.enum[0]
-  } else if (schema.hasOwnProperty('const')) {
+  } else if (hasOwnProperty(schema, 'const')) {
     return schema.const
   } else {
     throw new Error('schema cannot be inferred as a constant')
@@ -289,12 +305,13 @@ function findSchemaDefinition($ref, definitions = {}) {
   if (match && match[1]) {
     const parts = match[1].split('/')
     let current = definitions
+
     for (let part of parts) {
       part = part.replace(/~1/g, '/').replace(/~0/g, '~')
-      while (current.hasOwnProperty('$ref')) {
+      while (hasOwnProperty(current, '$ref')) {
         current = findSchemaDefinition(current.$ref, definitions)
       }
-      if (current.hasOwnProperty(part)) {
+      if (hasOwnProperty(current, part)) {
         current = current[part]
       } else {
         // No matching definition found, that's an error (bogus schema?)
@@ -337,28 +354,28 @@ export function stubExistingAdditionalProperties(
   // Clone the schema so we don't ruin the consumer's original
   schema = {
     ...schema,
-    properties: { ...schema.properties },
+    properties: { ...schema.properties }
   }
   Object.keys(formData).forEach(key => {
-    if (schema.properties.hasOwnProperty(key)) {
+    if (hasOwnProperty(schema.properties, key)) {
       // No need to stub, our schema already has the property
       return
     }
 
     let additionalProperties
-    if (schema.additionalProperties.hasOwnProperty('$ref')) {
+    if (hasOwnProperty(schema.additionalProperties, '$ref')) {
       additionalProperties = retrieveSchema(
         { $ref: schema.additionalProperties['$ref'] },
         definitions,
         formData
       )
-    } else if (schema.additionalProperties.hasOwnProperty('type')) {
+    } else if (hasOwnProperty(schema.additionalProperties, 'type')) {
       additionalProperties = { ...schema.additionalProperties }
     } else {
       additionalProperties = { type: guessType(formData[key]) }
     }
 
-    // The type of our new key should match the additionalProperties value;
+    // The type of our new key should match the additionalProperties value
     schema.properties[key] = additionalProperties
     // Set our additional property flag so we know it was dynamically added
     schema.properties[key][ADDITIONAL_PROPERTY_FLAG] = true
@@ -367,9 +384,9 @@ export function stubExistingAdditionalProperties(
 }
 
 export function resolveSchema(schema, definitions = {}, formData = {}) {
-  if (schema.hasOwnProperty('$ref')) {
+  if (hasOwnProperty(schema, '$ref')) {
     return resolveReference(schema, definitions, formData)
-  } else if (schema.hasOwnProperty('dependencies')) {
+  } else if (hasOwnProperty(schema, 'dependencies')) {
     const resolvedSchema = resolveDependencies(schema, definitions, formData)
     return retrieveSchema(resolvedSchema, definitions, formData)
   } else {
@@ -395,7 +412,7 @@ function resolveReference(schema, definitions, formData) {
 export function retrieveSchema(schema, definitions = {}, formData = {}) {
   const resolvedSchema = resolveSchema(schema, definitions, formData)
   const hasAdditionalProperties =
-    resolvedSchema.hasOwnProperty('additionalProperties') &&
+    hasOwnProperty(resolvedSchema, 'additionalProperties') &&
     resolvedSchema.additionalProperties !== false
   if (hasAdditionalProperties) {
     return stubExistingAdditionalProperties(
@@ -413,19 +430,30 @@ function resolveDependencies(schema, definitions, formData) {
   if ('oneOf' in resolvedSchema) {
     resolvedSchema =
       resolvedSchema.oneOf[
-      getMatchingOption(formData, resolvedSchema.oneOf, definitions)
+        getMatchingOption(formData, resolvedSchema.oneOf, definitions)
       ]
   } else if ('anyOf' in resolvedSchema) {
     resolvedSchema =
       resolvedSchema.anyOf[
-      getMatchingOption(formData, resolvedSchema.anyOf, definitions)
+        getMatchingOption(formData, resolvedSchema.anyOf, definitions)
       ]
   }
-  return processDependencies(dependencies, resolvedSchema, definitions, formData)
+  return processDependencies(
+    dependencies,
+    resolvedSchema,
+    definitions,
+    formData
+  )
 }
 
-function processDependencies(dependencies, resolvedSchema, definitions, formData) {
+function processDependencies(
+  dependencies,
+  resolvedSchema,
+  definitions,
+  formData
+) {
   // Process dependencies updating the local schema properties as appropriate.
+
   for (const dependencyKey in dependencies) {
     // Skip this dependency if its trigger property is not present.
     if (formData[dependencyKey] === undefined) {
@@ -453,7 +481,12 @@ function processDependencies(dependencies, resolvedSchema, definitions, formData
         dependencyValue
       )
     }
-    return processDependencies(remainingDependencies, resolvedSchema, definitions, formData)
+    return processDependencies(
+      remainingDependencies,
+      resolvedSchema,
+      definitions,
+      formData
+    )
   }
   return resolvedSchema
 }
@@ -489,7 +522,7 @@ function withDependentSchema(
   }
   // Resolve $refs inside oneOf.
   const resolvedOneOf = oneOf.map(subschema =>
-    subschema.hasOwnProperty('$ref')
+    hasOwnProperty(subschema, '$ref')
       ? resolveReference(subschema, definitions, formData)
       : subschema
   )
@@ -518,8 +551,8 @@ function withExactlyOneSubschema(
       const conditionSchema = {
         type: 'object',
         properties: {
-          [dependencyKey]: conditionPropertySchema,
-        },
+          [dependencyKey]: conditionPropertySchema
+        }
       }
       const { errors } = validateFormData(formData, conditionSchema)
       return errors.length === 0
@@ -643,7 +676,7 @@ export function toIdSchema(
   idPrefix = 'root'
 ) {
   const idSchema = {
-    $id: id || idPrefix,
+    $id: id || idPrefix
   }
   if ('$ref' in schema || 'dependencies' in schema) {
     const _schema = retrieveSchema(schema, definitions, formData)
@@ -655,6 +688,7 @@ export function toIdSchema(
   if (schema.type !== 'object') {
     return idSchema
   }
+
   for (const name in schema.properties || {}) {
     const field = schema.properties[name]
     const fieldId = idSchema.$id + '_' + name
@@ -673,7 +707,7 @@ export function toIdSchema(
 
 export function toPathSchema(schema, name = '', definitions, formData = {}) {
   const pathSchema = {
-    $name: name,
+    $name: name
   }
   if ('$ref' in schema || 'dependencies' in schema) {
     const _schema = retrieveSchema(schema, definitions, formData)
@@ -696,6 +730,7 @@ export function toPathSchema(schema, name = '', definitions, formData = {}) {
   if (schema.type !== 'object') {
     return pathSchema
   }
+
   for (const property in schema.properties || {}) {
     const field = schema.properties[property]
     const fieldId = pathSchema.$name
@@ -722,7 +757,7 @@ export function parseDateString(dateString, includeTime = true) {
       day: -1,
       hour: includeTime ? -1 : 0,
       minute: includeTime ? -1 : 0,
-      second: includeTime ? -1 : 0,
+      second: includeTime ? -1 : 0
     }
   }
   const date = new Date(dateString)
@@ -735,7 +770,7 @@ export function parseDateString(dateString, includeTime = true) {
     day: date.getUTCDate(),
     hour: includeTime ? date.getUTCHours() : 0,
     minute: includeTime ? date.getUTCMinutes() : 0,
-    second: includeTime ? date.getUTCSeconds() : 0,
+    second: includeTime ? date.getUTCSeconds() : 0
   }
 }
 
@@ -819,7 +854,7 @@ export function getMatchingOption(formData, options, definitions) {
     // the new option uses a $ref
     const option = Object.assign(
       {
-        definitions,
+        definitions
       },
       options[i]
     )
@@ -836,8 +871,8 @@ export function getMatchingOption(formData, options, definitions) {
       // 'properties' object
       const requiresAnyOf = {
         anyOf: Object.keys(option.properties).map(key => ({
-          required: [key],
-        })),
+          required: [key]
+        }))
       }
 
       let augmentedSchema
@@ -876,11 +911,7 @@ export function getMatchingOption(formData, options, definitions) {
 }
 
 export function cleanFormData(schema, data) {
-  const retrievedSchema = retrieveSchema(
-    schema,
-    schema.definitions,
-    data
-  )
+  const retrievedSchema = retrieveSchema(schema, schema.definitions, data)
   const pathSchema = toPathSchema(
     retrievedSchema,
     '',
@@ -897,13 +928,16 @@ export function cleanFormDataWithPath(formData, pathSchema) {
   }
 
   if (typeof formData === 'object' && formData) {
-    return Object.keys(formData).reduce((data, key) => {
-      const value = cleanFormDataWithPath(formData[key], pathSchema[key])
-      if (value !== null) {
-        data[key] = value
-      }
-      return data
-    }, Array.isArray(formData) ? [] : {})
+    return Object.keys(formData).reduce(
+      (data, key) => {
+        const value = cleanFormDataWithPath(formData[key], pathSchema[key])
+        if (value !== null) {
+          data[key] = value
+        }
+        return data
+      },
+      Array.isArray(formData) ? [] : {}
+    )
   }
 
   return formData
