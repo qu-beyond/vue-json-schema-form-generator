@@ -1,14 +1,31 @@
 <template>
-  <b-field>
-    <b-datetimepicker
-      v-model="date"
-      v-bind="$attrs"
-      :timepicker="{ hourFormat: '12' }"
-      icon="calendar-today"
-      horizontal-time-picker
-      trap-focus
-    />
-  </b-field>
+  <b-datetimepicker
+    v-model="date"
+    v-bind="$attrs"
+    :timepicker="{ hourFormat: '12' }"
+    ref="datepicker"
+    icon="calendar-alt"
+    trap-focus
+  >
+    <p
+      slot="right"
+      class="buttons is-right"
+    >
+      <b-button
+        icon-left="trash-alt"
+        type="is-danger"
+        @click="date = null"
+      >
+        Clear
+      </b-button>
+      <b-button
+        icon-left="times"
+        @click="$refs.datepicker.toggle()"
+      >
+        Close
+      </b-button>
+    </p>
+  </b-datetimepicker>
 </template>
 
 <script>
