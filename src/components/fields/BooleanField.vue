@@ -5,7 +5,9 @@
     v-bind="uiOptions"
     :options="options"
   >
-    {{ schema.title }}
+    <template v-if="schema.title">
+      {{ schema.title }}
+    </template>
   </component>
 </template>
 

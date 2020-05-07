@@ -26,7 +26,8 @@
     },
     "boolean": {
       "type": "boolean",
-      "title": "switch"
+      "enum": [false, true],
+      "enumNames": ["Disabled", "Enabled"]
     },
     "booleanTrue": {
       "type": "boolean",
