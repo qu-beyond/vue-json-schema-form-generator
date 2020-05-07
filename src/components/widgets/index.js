@@ -2,6 +2,7 @@ import CheckboxesWidget from './CheckboxesWidget'
 import CheckboxWidget from './CheckboxWidget'
 import ColorWidget from './ColorWidget'
 import DateWidget from './DateWidget'
+import DateTimeWidget from './DateTimeWidget'
 import EmailWidget from './EmailWidget'
 import FileWidget from './FileWidget'
 import HiddenWidget from './HiddenWidget'
@@ -35,8 +36,8 @@ export const widgetMap = {
     hidden: HiddenWidget,
     date: DateWidget,
     // TODO: implement missing widgets
-    // datetime: 'DateTimeWidget',
-    // 'date-time': 'DateTimeWidget',
+    datetime: DateTimeWidget,
+    'date-time': DateTimeWidget,
     color: ColorWidget,
     file: FileWidget
   },
