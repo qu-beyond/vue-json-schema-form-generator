@@ -1,9 +1,11 @@
 <template>
   <b-field>
-    <b-datepicker
+    <b-datetimepicker
       v-model="date"
       v-bind="$attrs"
+      :timepicker="{ hourFormat: '12' }"
       icon="calendar-today"
+      horizontal-time-picker
       trap-focus
     />
   </b-field>
@@ -11,8 +13,7 @@
 
 <script>
 export default {
-  name: 'DateWidget',
-  inheritAttrs: false,
+  name: 'DateTimeWidget',
   props: {
     value: {
       type: String,
@@ -25,19 +26,17 @@ export default {
         if (!this.value) {
           return undefined
         }
-        const d = new Date(this.value.split('T')[0])
-        const day = d.getUTCDate()
-        const month = d.getUTCMonth()
-        const year = d.getUTCFullYear()
-
-        return new Date(year, month, day)
+        console.log('get -> this.value', this.value)
+        return new Date(this.value.split('.')[0])
       },
       set(val) {
         let payload = val
         if (val instanceof Date) {
           payload = val.getFullYear() +
             '-' + pad(val.getMonth() + 1) +
-            '-' + pad(val.getDate())
+            '-' + pad(val.getDate()) +
+            'T' + pad(val.getHours()) +
+            ':' + pad(val.getMinutes())
         }
         this.$emit('input', payload)
       }

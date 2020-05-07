@@ -1,0 +1,16 @@
+{
+  "title": "Files",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+    },
+    "date_time": {
+      "type": "string",
+      "title": "Date and Time",
+      "format": "date-time"
+    }
+  }
+}
