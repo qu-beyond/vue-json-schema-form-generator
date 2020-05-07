@@ -1,12 +1,30 @@
 <template>
-  <b-field>
-    <b-datepicker
-      v-model="date"
-      v-bind="$attrs"
-      icon="calendar-today"
-      trap-focus
-    />
-  </b-field>
+  <b-datepicker
+    v-model="date"
+    v-bind="$attrs"
+    ref="datepicker"
+    icon="calendar-alt"
+    expanded
+    trap-focus
+  >
+    <p
+      class="buttons is-right"
+    >
+      <b-button
+        icon-left="trash-alt"
+        type="is-danger"
+        @click="date = null"
+      >
+        Clear
+      </b-button>
+      <b-button
+        icon-left="times"
+        @click="$refs.datepicker.toggle()"
+      >
+        Close
+      </b-button>
+    </p>
+  </b-datepicker>
 </template>
 
 <script>
