@@ -19,7 +19,11 @@ describe('cleanFormData()', () => {
         }
       }
     }
-    const result = cleanFormData(schema, { 'a.b': 'yay', toBeCleaned: 'bye bye', boolean: false })
+    const result = cleanFormData(schema, {
+      'a.b': 'yay',
+      toBeCleaned: 'bye bye',
+      boolean: false
+    })
     expect(result.toBeCleaned).toBeUndefined()
     expect(result['a.b']).toBe('yay')
     expect(result.boolean).toBe(false)

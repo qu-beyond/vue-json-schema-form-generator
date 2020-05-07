@@ -5,9 +5,9 @@ describe('checkValue()', () => {
     const objSchema = {
       type: 'object',
       properties: {
-        'a': {
-          'title': 'A',
-          'type': 'string'
+        a: {
+          title: 'A',
+          type: 'string'
         }
       }
     }
@@ -55,7 +55,6 @@ describe('checkValue()', () => {
   })
 
   it('should return an integer', () => {
-
     const intSchema = {
       type: 'integer'
     }

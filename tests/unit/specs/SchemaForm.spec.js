@@ -29,9 +29,7 @@ describe('SchemaForm.vue', () => {
     expect(wrapper.find('.field')).toBeDefined()
   })
   it('should render correct label', () => {
-    expect(wrapper.find('.field .label').html()).toContain(
-      'First name'
-    )
+    expect(wrapper.find('.field .label').html()).toContain('First name')
   })
   // it('should have a isValid property set to true')
   it('should have the firstName property', () => {

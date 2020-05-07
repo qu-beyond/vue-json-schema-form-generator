@@ -81,7 +81,7 @@ export function toErrorList(errorSchema, fieldName = 'root') {
     errorList = errorList.concat(
       errorSchema.__errors.map(stack => {
         return {
-          stack: `${fieldName}: ${stack}`,
+          stack: `${fieldName}: ${stack}`
         }
       })
     )
@@ -109,9 +109,12 @@ function transformAjvErrors(errors = [], schema) {
     dataPath = jsonPointers.parse(dataPath)
     schemaPath = jsonPointers.parse(schemaPath.slice(1))
     let auxSchemaPath = schemaPath.slice(0, schemaPath.length - 1)
-    
+
     if (keyword === 'required') {
-      auxSchemaPath = auxSchemaPath.concat(['properties', params.missingProperty])
+      auxSchemaPath = auxSchemaPath.concat([
+        'properties',
+        params.missingProperty
+      ])
     }
     const { title } = jsonPointers.get(schema, auxSchemaPath) || {}
 
@@ -122,7 +125,7 @@ function transformAjvErrors(errors = [], schema) {
       dataPath,
       message,
       params, // specific to ajv
-      schemaPath,
+      schemaPath
     }
   })
 }
@@ -135,7 +138,7 @@ function createErrorHandler(formData) {
     __errors: [],
     addError(message) {
       this.__errors.push(message)
-    },
+    }
   }
   if (isObject(formData)) {
     return Object.keys(formData).reduce((acc, key) => {
@@ -222,8 +225,8 @@ export function validateFormData(
     errors = [
       ...errors,
       {
-        stack: validationError.message,
-      },
+        stack: validationError.message
+      }
     ]
   }
   if (typeof transformErrors === 'function' && errors.length) {
@@ -234,7 +237,7 @@ export function validateFormData(
 
   if (noProperMetaSchema) {
     errorSchema.$schema = {
-      __errors: [validationError.message],
+      __errors: [validationError.message]
     }
   }
 
@@ -252,7 +255,7 @@ export function validateFormData(
 
   return {
     errors: newErrors,
-    errorSchema: newErrorSchema,
+    errorSchema: newErrorSchema
   }
 }
 

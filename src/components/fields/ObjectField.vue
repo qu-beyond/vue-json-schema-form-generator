@@ -37,7 +37,11 @@
 
 <script>
 import Vue from 'vue'
-import { getUiOptions, ADDITIONAL_PROPERTY_FLAG } from '../../utils/helpers'
+import {
+  getUiOptions,
+  ADDITIONAL_PROPERTY_FLAG,
+  hasOwnProperty
+} from '../../utils/helpers'
 
 export default {
   name: 'ObjectField',
@@ -69,7 +73,7 @@ export default {
   },
   data() {
     return {
-      internalValue: this.value || {},
+      internalValue: this.value || {}
     }
   },
   methods: {
@@ -119,7 +123,7 @@ export default {
     getAvailableKey(preferredKey) {
       var index = 0
       var newKey = preferredKey
-      while (this.internalValue.hasOwnProperty(newKey)) {
+      while (hasOwnProperty(this.internalValue, newKey)) {
         newKey = `${preferredKey}-${++index}`
       }
       return newKey

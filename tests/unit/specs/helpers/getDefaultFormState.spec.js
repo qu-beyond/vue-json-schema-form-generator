@@ -6,7 +6,7 @@ describe('getDefaultFormState()', () => {
       expect(
         getDefaultFormState({
           type: 'string',
-          default: 'foo',
+          default: 'foo'
         })
       ).toBe('foo')
     })
@@ -16,7 +16,7 @@ describe('getDefaultFormState()', () => {
         getDefaultFormState(
           {
             type: 'number',
-            default: 1,
+            default: 1
           },
           0
         )
@@ -27,7 +27,7 @@ describe('getDefaultFormState()', () => {
       expect(
         getDefaultFormState(
           {
-            type: 'boolean',
+            type: 'boolean'
           },
           false
         )
@@ -41,7 +41,7 @@ describe('getDefaultFormState()', () => {
           getDefaultFormState(
             {
               type: 'number',
-              default: 1,
+              default: 1
             },
             noneValue
           )

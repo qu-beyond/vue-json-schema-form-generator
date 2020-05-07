@@ -6,7 +6,7 @@
     v-on="$listeners"
   >
     <option
-      v-for="({ label, value: val }) in options"
+      v-for="{ label, value: val } in options"
       :key="val"
       :value="val"
     >
