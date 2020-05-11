@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { pad } from '../../utils/helpers'
+
 export default {
   name: 'DateWidget',
   inheritAttrs: false,
@@ -53,20 +55,13 @@ export default {
       set(val) {
         let payload = val
         if (val instanceof Date) {
-          payload = val.getFullYear() +
-            '-' + pad(val.getMonth() + 1) +
-            '-' + pad(val.getDate())
+          payload = pad(val.getFullYear(), 4) +
+            '-' + pad(val.getMonth() + 1, 2) +
+            '-' + pad(val.getDate(), 2)
         }
         this.$emit('input', payload)
       }
     }
   }
-}
-
-function pad(number) {
-  if (number < 10) {
-    return `0${number}`
-  }
-  return number.toString()
 }
 </script>

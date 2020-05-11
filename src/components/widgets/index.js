@@ -35,8 +35,6 @@ export const widgetMap = {
     textarea: TextareaWidget,
     hidden: HiddenWidget,
     date: DateWidget,
-    // TODO: implement missing widgets
-    datetime: DateTimeWidget,
     'date-time': DateTimeWidget,
     color: ColorWidget,
     file: FileWidget
