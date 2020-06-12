@@ -7,6 +7,7 @@
     :errors="errors"
     :schema="processedSchema"
     :definitions="definitions"
+    :required="required"
     v-on="$listeners"
   >
     <component
@@ -15,6 +16,7 @@
       ref="component"
       v-model="model"
       :schema="processedSchema"
+      :required="required"
       :definitions="definitions"
       :error-schema="errorSchema"
       :widgets="widgets"
@@ -65,6 +67,10 @@ export default {
     label: {
       type: String,
       default: undefined
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
