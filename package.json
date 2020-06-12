@@ -1,6 +1,6 @@
 {
   "name": "@qu-beyond/vue-json-schema-form-generator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "JSON schema form builder using vuejs and buefy at front end",
   "main": "./src/index.js",
   "author": "German Allemand <gallemand@qubeyond.com>",
@@ -20,7 +20,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "buefy": "^0.8.17",
+    "buefy": "^0.8.20",
     "core-js": "^3.6.5",
     "json-pointer": "^0.6.0",
     "vue": "^2.6.11"

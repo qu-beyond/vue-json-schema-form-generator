@@ -1,6 +1,6 @@
 <template>
   <b-field
-    :label="label"
+    :label="(label || '') + (required ? ' *' : '')"
     :message="message"
     :type="{ 'is-danger': errors.length }"
     horizontal
