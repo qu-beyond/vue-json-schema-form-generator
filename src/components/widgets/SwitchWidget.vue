@@ -1,6 +1,7 @@
 <template>
   <b-switch
     :value="value"
+    type="is-success"
     v-bind="$attrs"
     v-on="$listeners"
   >
