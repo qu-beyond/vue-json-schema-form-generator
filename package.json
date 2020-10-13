@@ -1,6 +1,6 @@
 {
   "name": "@qu-beyond/vue-json-schema-form-generator",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "JSON schema form builder using vuejs and buefy at front end",
   "main": "./src/index.js",
   "author": "German Allemand <gallemand@qubeyond.com>",
@@ -10,7 +10,7 @@
   },
   "engines": {
     "node": ">= 10",
-    "yarn": ">= 1.22.0"
+    "yarn": ">= 1.21.0"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -26,15 +26,15 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-plugin-unit-jest": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
+    "@vue/cli-plugin-babel": "^4.5.7",
+    "@vue/cli-plugin-eslint": "^4.5.7",
+    "@vue/cli-plugin-unit-jest": "^4.5.7",
+    "@vue/cli-service": "^4.5.7",
     "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/test-utils": "1.0.0-beta.31",
+    "@vue/test-utils": "^1.1.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
-    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^6.2.2",
     "lint-staged": "^9.5.0",
     "node-sass": "^4.12.0",
