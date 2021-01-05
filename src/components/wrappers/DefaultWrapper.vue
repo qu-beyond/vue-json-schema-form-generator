@@ -47,14 +47,18 @@ export default {
 
 <style lang="scss">
 .field[required] {
-  .label:after {
-    content: '*';
-    display: inline-block;
-    margin-left: 3px;
+  .label {
+    position: relative;
 
-    @media screen and (min-width: 769px) {
-      position: absolute;
-      top: 0;
+    &:after {
+      content: '*';
+      display: inline-block;
+      margin-left: 3px;
+
+      @media screen and (min-width: 769px) {
+        position: absolute;
+        top: 0;
+      }
     }
   }
 }
