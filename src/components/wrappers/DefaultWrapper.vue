@@ -1,6 +1,6 @@
 <template>
   <b-field
-    :label="(label || '') + (required ? ' *' : '')"
+    :label="label || ''"
     :message="message"
     :type="{ 'is-danger': errors.length }"
     horizontal
@@ -44,3 +44,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.field[required] {
+  .label {
+    position: relative;
+
+    &:after {
+      content: '*';
+      display: inline-block;
+      margin-left: 3px;
+
+      @media screen and (min-width: 769px) {
+        position: absolute;
+        top: 0;
+      }
+    }
+  }
+}
+</style>
