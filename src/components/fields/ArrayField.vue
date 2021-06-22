@@ -6,9 +6,6 @@
       grouped
       expanded
     >
-      // THE FIXIS THE KEY!! WE NEED ANOTHER THAN INDEX
-      index {{ index }}
-      item {{ item }}
       <b-field
         expanded
         class="is-marginless"
