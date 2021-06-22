@@ -78,10 +78,6 @@ export default {
     }
   },
   methods: {
-    // it solves an issue from EI-3298 
-    // <<  When delete an item from an array in the platformsetting, don't delete the correct on >>
-    // problem: after deleting an element it doesnt refresh the vfor correctly since it has the same key than before
-    // that is why it needs an unique key id
     randomKey(index){
       return `${index}-${(new Date()).getTime()}`
     },
