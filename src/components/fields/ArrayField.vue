@@ -2,10 +2,13 @@
   <fieldset>
     <b-field
       v-for="(item, index) in model"
-      :key="index"
+      :key="randomKey(index)"
       grouped
       expanded
     >
+      // THE FIXIS THE KEY!! WE NEED ANOTHER THAN INDEX
+      index {{ index }}
+      item {{ item }}
       <b-field
         expanded
         class="is-marginless"
@@ -31,7 +34,7 @@
             class="is-danger"
             icon-left="trash-alt"
             expanded
-            @click="model.splice(index, 1)"
+            @click="removeItem(index)"
           />
         </b-tooltip>
       </b-field>
@@ -78,6 +81,17 @@ export default {
     }
   },
   methods: {
+    // it solves an issue from EI-3298 
+    // <<  When delete an item from an array in the platformsetting, don't delete the correct on >>
+    // problem: after deleting an element it doesnt refresh the vfor correctly since it has the same key than before
+    // that is why it needs an unique key id
+    randomKey(index){
+      return `${index}-${(new Date()).getTime()}`
+    },
+    removeItem(index){
+      this.model.splice(index, 1)
+      this.$emit('input', this.model)
+    },
     addItem() {
       this.model.push(this.getNewFormDataRow())
     },
