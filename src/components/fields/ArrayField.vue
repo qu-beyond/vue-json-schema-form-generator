@@ -2,7 +2,7 @@
   <fieldset>
     <b-field
       v-for="(item, index) in model"
-      :key="index"
+      :key="randomKey(index)"
       grouped
       expanded
     >
@@ -31,7 +31,7 @@
             class="is-danger"
             icon-left="trash-alt"
             expanded
-            @click="model.splice(index, 1)"
+            @click="removeItem(index)"
           />
         </b-tooltip>
       </b-field>
@@ -78,6 +78,13 @@ export default {
     }
   },
   methods: {
+    randomKey(index){
+      return `${index}-${(new Date()).getTime()}`
+    },
+    removeItem(index){
+      this.model.splice(index, 1)
+      this.$emit('input', this.model)
+    },
     addItem() {
       this.model.push(this.getNewFormDataRow())
     },
