@@ -2,7 +2,7 @@
   <fieldset>
     <b-field
       v-for="(item, index) in model"
-      :key="randomKey(index)"
+      :key="index"
       grouped
       expanded
     >
@@ -78,13 +78,6 @@ export default {
     }
   },
   methods: {
-    randomKey(index){
-      return `${index}-${(new Date()).getTime()}`
-    },
-    removeItem(index){
-      this.model.splice(index, 1)
-      this.$emit('input', this.model)
-    },
     addItem() {
       this.model.push(this.getNewFormDataRow())
     },
