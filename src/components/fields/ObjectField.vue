@@ -6,7 +6,7 @@
       :label="isAdditional(child) && key"
       :schema="child"
       :definitions="definitions"
-      :value="value[key]"
+      :value="internalValue[key]"
       :required="isRequired(key)"
       :error-schema="errorSchema[key]"
       :widgets="widgets"
@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      internalValue: this.value || {}
+      internalValue: {}
     }
   },
   methods: {
@@ -134,6 +134,14 @@ export default {
     handleDelete(key) {
       Vue.delete(this.internalValue, key)
       this.$emit('input', this.internalValue)
+    }
+  },
+  watch: {
+    value: {
+      handler(value) {
+       this.internalValue = value 
+      },
+      immediate: true
     }
   }
 }
