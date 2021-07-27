@@ -31,7 +31,7 @@
             class="is-danger"
             icon-left="trash-alt"
             expanded
-            @click="model.splice(index, 1)"
+            @click="deleteValue(index)"
           />
         </b-tooltip>
       </b-field>
@@ -83,6 +83,10 @@ export default {
     },
     updateValue(value, index) {
       this.model.splice(index, 1, value)
+      this.$emit('input', this.model)
+    },
+    deleteValue(index){
+      this.model.splice(index, 1)
       this.$emit('input', this.model)
     },
     getNewFormDataRow() {

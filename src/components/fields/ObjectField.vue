@@ -6,7 +6,7 @@
       :label="isAdditional(child) && key"
       :schema="child"
       :definitions="definitions"
-      :value="internalValue[key]"
+      :value="value[key]"
       :required="isRequired(key)"
       :error-schema="errorSchema[key]"
       :widgets="widgets"
