@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      internalValue: this.value || {}
+      internalValue: {}
     }
   },
   methods: {
@@ -134,6 +134,14 @@ export default {
     handleDelete(key) {
       Vue.delete(this.internalValue, key)
       this.$emit('input', this.internalValue)
+    }
+  },
+  watch: {
+    value: {
+      handler(value) {
+       this.internalValue = value 
+      },
+      immediate: true
     }
   }
 }
