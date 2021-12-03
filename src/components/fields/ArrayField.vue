@@ -79,15 +79,17 @@ export default {
   },
   methods: {
     addItem() {
-      this.model.push(this.getNewFormDataRow())
+      this.model = [...this.model, this.getNewFormDataRow()]
     },
     updateValue(value, index) {
-      this.model.splice(index, 1, value)
-      this.$emit('input', this.model)
+      const newModel = [...this.model]
+      newModel.splice(index, 1, value)
+      this.model = newModel
     },
     deleteValue(index){
-      this.model.splice(index, 1)
-      this.$emit('input', this.model)
+      const newModel = [...this.model]
+      newModel.splice(index, 1)
+      this.model = newModel
     },
     getNewFormDataRow() {
       const { schema } = this
